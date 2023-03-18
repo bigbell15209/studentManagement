@@ -112,10 +112,29 @@ exports.hasAuthorization = function (req, res, next) {
     console.log('in hasAuthorization - student: ',req.id)
 
 
-    if (req.course.applicants.id !== req.id) {
+    if (req.course.applicants[0].id !== req.id) {
         return res.status(403).send({
             message: 'Student is not authorized'
         });
     }
     next();
+};
+
+
+exports.search = function (req, res) {
+    const course = new Course();
+    course.courseCode = req.body.courseCode;
+    console.log("Student Search req.body: " + JSON.stringify(req.body.courseCode));
+    
+    Course.find({courseCode: req.body.courseCode}).sort('-created').populate('applicants', 'firstName lastName fullName').exec((err, courses) => {
+        if (err) {
+                return res.status(400).send({
+                    message: getErrorMessage(err)
+                });
+            } else {
+                res.status(200).json(courses);
+                console.log('searched students:' + courses);
+            }
+        });
+
 };

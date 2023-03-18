@@ -23,7 +23,7 @@ module.exports = function (app) {
     // any route in which the param occurs, and they will each 
     // be called only once in a request - response cycle, 
     // even if the parameter is matched in multiple routes
-    app.param('studentsId', students.studentByID);
+    app.param('studentId', students.studentByID);
     
     //authenticate user
     app.post('/signin', students.authenticate);

@@ -14,4 +14,7 @@ module.exports = function (app) {
                 delete);
         //
         app.param('courseId', courses.courseByID);
+
+        app.route('/api/searchCode')
+        .post(courses.search);
 };
